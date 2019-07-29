@@ -1,27 +1,15 @@
 <template>
     <div class="movie_body">
         <ul>
-            <li>
+            <li v-for="item in comingList" :key="item.id">
                 <div class="pic_show">
-                    <img src="../../../public/images/movie_1.jpg" alt="">
+                    <img :src="item.img | setWH('128.180')" alt="">
                 </div>
                 <div class="info_list">
-                    <h2>无名之辈</h2>
-                    <p><span class="person">17746</span>&nbsp;人想看</p>
-                    <p>主演：陈建斌，任素汐，潘斌龙</p>
-                    <p>2018-11-30上映</p>
-                </div>
-                <div class="btn_pre">预告</div>
-            </li>
-            <li>
-                <div class="pic_show">
-                    <img src="../../../public/images/movie_2.jpg" alt="">
-                </div>
-                <div class="info_list">
-                    <h2>毒液：致命守护者</h2>
-                    <p>观众评&nbsp;<span class="grade">9.3</span></p>
-                    <p>主演：汤姆·哈迪，米歇尔·威廉姆斯，里兹·阿迈德</p>
-                    <p>今天56家电影院放映443场</p>
+                    <h2>{{item.nm}}&nbsp;<img v-if="item.version == 'v3d'" src="@/assets/maxs.png" /></h2>
+                    <p><span class="person">{{item.wish}}</span>&nbsp;人想看</p>
+                    <p>主演：{{item.star}}</p>
+                    <p>{{item.showInfo}}</p>
                 </div>
                 <div class="btn_pre">预告</div>
             </li>
@@ -32,6 +20,19 @@
 <script>
 export default {
     name: 'ComingSoon',
+    data() {
+        return {
+            comingList: [],
+        }
+    },
+    mounted() {
+        this.axios.get('/api/movieComingList?cityId=10').then((res) => {
+            if(res.data.msg == 'ok') {
+                this.comingList = res.data.data.comingList;
+                console.log(this.comingList);
+            }
+        })
+    }
 }
 </script>
 
