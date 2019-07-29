@@ -3,32 +3,21 @@
         <div class="search_input">
             <div class="search_input_wrapper">
                 <i class="iconfont icon-sousuo"></i>
-                <input type="text">
+                <input type="text" v-model="search_txt">
             </div>
         </div>
         <div class="search_result">
             <h3>电影/电视剧/综艺</h3>
             <ul>
-                <li>
+                <li v-for="item in moviesList" :key="item.id">
                     <div class="img">
-                        <img src="../../../public/images/movie_1.jpg" alt="">
+                        <img :src="item.img | setWH('128.180')" alt="">
                     </div>
                     <div class="info">
-                        <p><span>无名之辈</span><span>8.5</span></p>
-                        <p>A&nbsp;Cool&nbsp;Fish</p>
-                        <p>剧情，喜剧，犯罪</p>
-                        <p>2018-11-16</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="img">
-                        <img src="../../../public/images/movie_1.jpg" alt="">
-                    </div>
-                    <div class="info">
-                        <p><span>无名之辈</span><span>8.5</span></p>
-                        <p>A&nbsp;Cool&nbsp;Fish</p>
-                        <p>剧情，喜剧，犯罪</p>
-                        <p>2018-11-16</p>
+                        <p><span>{{item.nm}}</span><span>{{item.sc}}</span></p>
+                        <p>{{item.enm}}</p>
+                        <p>{{item.cat}}</p>
+                        <p>{{item.rt}}</p>
                     </div>
                 </li>
             </ul>
@@ -37,8 +26,46 @@
 </template>
 
 <script>
+import { clearTimeout } from 'timers';
 export default {
     name: 'search',
+    data() {
+        return {
+            search_txt: '',
+            moviesList: [],
+            cinemasList: [],
+        }
+    },
+    methods: {
+        cancelRequest() {
+            if(typeof this.source === 'function') {
+                this.source('终止请求');
+            }
+        }
+    },
+    watch: {
+        search_txt(newVal) {
+
+            this.cancelRequest();
+            var _this = this;
+
+            this.axios.get('/api/searchList?cityId=10&kw='+newVal, {
+                cancelToken: new this.axios.CancelToken(function(c) {
+                    _this.source = c;
+                })
+            }).then((res) => {
+                if(res.data.msg && res.data.data.movies) {
+                    this.moviesList = res.data.data.movies.list;
+                }
+            }).catch((err) => {
+                if(this.axios.isCancel(err)) {
+                    console.log('Request canceled', err.message); // 请求如果被取消，这里是返回取消的message
+                } else {
+                    console.log(err);
+                }
+            })
+        }
+    }
 }
 </script>
 

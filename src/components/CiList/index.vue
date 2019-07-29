@@ -1,46 +1,17 @@
 <template>
     <div class="cinema_body">
         <ul>
-            <li>
+            <li v-for="item in cinemaList" :key="item.id">
                 <div>
-                    <span>大地影院(澳东世纪店)</span>
-                    <span class="q"><span class="price">22.9</span>&nbsp;元起</span>
+                    <span>{{item.nm}}</span>
+                    <span class="q"><span class="price">{{item.sellPrice}}</span>&nbsp;元起</span>
                 </div>
                 <div class="address">
-                    <span>金州区大连经济技术开发区澳东世纪3层</span>
-                    <span>1763.5km</span>
+                    <span>{{item.addr}}</span>
+                    <span>{{item.distance}}</span>
                 </div>
                 <div class="card">
-                    <div>小吃</div>
-                    <div>折扣卡</div>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <span>大地影院(澳东世纪店)</span>
-                    <span class="q"><span class="price">22.9</span>&nbsp;元起</span>
-                </div>
-                <div class="address">
-                    <span>金州区大连经济技术开发区澳东世纪3层</span>
-                    <span>1763.5km</span>
-                </div>
-                <div class="card">
-                    <div>小吃</div>
-                    <div>折扣卡</div>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <span>大地影院(澳东世纪店)</span>
-                    <span class="q"><span class="price">22.9</span>&nbsp;元起</span>
-                </div>
-                <div class="address">
-                    <span>金州区大连经济技术开发区澳东世纪3层</span>
-                    <span>1763.5km</span>
-                </div>
-                <div class="card">
-                    <div>小吃</div>
-                    <div>折扣卡</div>
+                    <div v-for="(items, key) in item.tag" v-if="items===1" :key="key" :class="key | classCard">{{ key | formatCard }}</div>
                 </div>
             </li>
         </ul>
@@ -50,6 +21,49 @@
 <script>
 export default {
     name: 'CiList',
+    data() {
+        return {
+            cinemaList: [],
+        }
+    },
+    mounted() {
+        this.axios.get('/api/cinemaList?cityId=10').then((res) => {
+            console.log(res);
+            if(res.data.msg == 'ok') {
+                this.cinemaList = res.data.data.cinemas;
+            }
+        })
+    },
+    filters: {
+        formatCard(key) {
+            var card = [
+                { key: 'allowRefund', value: '改签' },
+                { key: 'endorse', value: '退订' },
+                { key: 'sell', value: '折扣卡' },
+                { key: 'snack', value: '小吃' },
+            ];
+            for(var i = 0; i < card.length; i++) {
+                if(card[i].key === key) {
+                    return card[i].value;
+                }
+            }
+            return '';
+        },
+        classCard(key) {
+            var card = [
+                { key: 'allowRefund', value: 'bl' },
+                { key: 'endorse', value: 'bl' },
+                { key: 'sell', value: 'or' },
+                { key: 'snack', value: 'or' },
+            ];
+            for(var i = 0; i < card.length; i++) {
+                if(card[i].key === key) {
+                    return card[i].value;
+                }
+            }
+            return '';
+        }
+    }
 }
 </script>
 
@@ -83,21 +97,21 @@ export default {
                 display: flex;
                 div{
                     padding: 0 3px;
-                    height: 15px;
-                    line-height: 15px;
+                    height: 20px;
+                    line-height: 20px;
                     border-radius: 2px;
                     color: #f90;
                     border: 1px solid #f90;
                     font-size: 13px;
                     margin-right: 5px;
-                    .or{
-                        color: #f90;
-                        border: 1px solid #f90;
-                    }
-                    .bl{
-                        color: #589daf;
-                        border: 1px solid #589daf;
-                    }
+                }
+                .or{
+                    color: #f90;
+                    border: 1px solid #f90;
+                }
+                .bl{
+                    color: #589daf;
+                    border: 1px solid #589daf;
                 }
             }
         }
