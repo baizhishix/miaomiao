@@ -9,7 +9,6 @@ export default {
     name: 'Header',
     data() {
         return{
-            
         }
     },
     props: {
@@ -25,9 +24,9 @@ export default {
 #Header{
     width: 100%;
     height: 50px;
-    color: #fff;
-    background: #e54847;
-    border-bottom: 1px solid #e54847;
+    // color: #fff;
+    // background: #e54847;
+    border-bottom: 1px solid #ccc;
     position: relative;
     h1{
         font-size: 18px;

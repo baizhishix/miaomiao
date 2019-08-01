@@ -34,6 +34,7 @@ export default {
             search_txt: '',
             moviesList: [],
             cinemasList: [],
+            prevCityId: -1,
         }
     },
     methods: {
@@ -46,10 +47,12 @@ export default {
     watch: {
         search_txt(newVal) {
 
+            console.log(newVal);
             this.cancelRequest();
             var _this = this;
+            var cityId = this.$store.state.city.id;
 
-            this.axios.get('/api/searchList?cityId=10&kw='+newVal, {
+            this.axios.get('/api/searchList?cityId='+ cityId +'&kw='+newVal, {
                 cancelToken: new this.axios.CancelToken(function(c) {
                     _this.source = c;
                 })
