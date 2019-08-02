@@ -6,7 +6,7 @@
         <loader v-if="isLoading"></loader>
         <div v-else class="contentDetail">
             <div class="detail_list">
-                <div class="detail_list_bg"></div>
+                <div class="detail_list_bg" :style="{ 'background-image': 'url('+ detailMovie.img.replace(/w\.h/, '148.208') +')'}"></div>
                 <div class="detail_list_filter"></div>
                 <div class="detail_list_content">
                     <div class="detail_list_img">
@@ -98,7 +98,7 @@ export default {
             .detail_list_bg{
                 width: 100%;
                 height: 100%;
-                background: url(/images/movie_1.jpg) 0 40%;
+                background: 0 40%;
                 filter: blur(20px);
                 background-size: cover;
                 position: absolute;
