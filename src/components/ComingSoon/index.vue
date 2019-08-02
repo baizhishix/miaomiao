@@ -5,11 +5,11 @@
             <ul>
                 <li class="pullDown">{{ pullDomnMsg }}</li>
                 <li v-for="item in comingList" :key="item.id">
-                    <div class="pic_show">
+                    <div class="pic_show" @tap="handleToDetail(item.id)">
                         <img :src="item.img | setWH('128.180')" alt="">
                     </div>
                     <div class="info_list">
-                        <h2>{{item.nm}}&nbsp;<img v-if="item.version == 'v3d'" src="@/assets/maxs.png" /></h2>
+                        <h2 @tap="handleToDetail(item.id)">{{item.nm}}&nbsp;<img v-if="item.version == 'v3d'" src="@/assets/maxs.png" /></h2>
                         <p><span class="person">{{item.wish}}</span>&nbsp;人想看</p>
                         <p>主演：{{item.star}}</p>
                         <p>{{item.showInfo}}</p>
@@ -44,6 +44,9 @@ export default {
         })
     },
     methods: {
+        handleToDetail(movieId) {
+            this.$router.push('/movie/detail/2/'+movieId);
+        },
         handleToScroll: function(pos) {
             if(pos.y > 30) {
                 this.pullDomnMsg = '正在更新';

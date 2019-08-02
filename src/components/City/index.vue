@@ -129,15 +129,16 @@ export default {
 
 <style lang="scss" scope>
 .city_body{
-    margin-top: 45px;
+    margin-top: 50px;
     display: flex;
     width: 100%;
     position: absolute;
     top: 0;
     bottom: 0;
+    z-index: 0;
     .city_list{
         flex: 1;
-        overflow: auto;
+        overflow: hidden;
         background: #fff5f0;
         .city_hot{
             margin-top: 20px;

@@ -38,6 +38,28 @@ export default new Router({
           component: resolve => require(['../components/Search/index.vue'], resolve),
         },
         {
+          path: 'detail/1/:movieId',
+          name: 'detail',
+          components: {
+            default: resolve => require(['@/views/movie'], resolve),
+            detail: resolve => require(['@/views/movie/detail.vue'], resolve),
+          },
+          props: {
+            detail: true,
+          },
+        },
+        {
+          path: 'detail/2/:movieId',
+          name: 'detail',
+          components: {
+            default: resolve => require(['@/views/movie'], resolve),
+            detail: resolve => require(['@/views/movie/detail.vue'], resolve),
+          },
+          props: {
+            detail: true,
+          },
+        },
+        {
           path: '/movie',
           redirect: '/movie/NowPlaying' 
         }
