@@ -57,6 +57,7 @@ export default {
                     _this.source = c;
                 })
             }).then((res) => {
+                console.log(res);
                 if(res.data.msg && res.data.data.movies) {
                     this.moviesList = res.data.data.movies.list;
                 }
